@@ -1,0 +1,43 @@
+# BERSERK: настройки для хостинга на Apache (Beget, Timeweb, REG.RU и т. п.).
+# Для nginx те же правила нужно перенести в конфиг сервера.
+
+AddDefaultCharset UTF-8
+AddType font/woff2 .woff2
+AddType image/webp .webp
+
+# Сжатие текстовых файлов
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript application/json image/svg+xml text/plain application/xml
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml text/plain application/xml
+</IfModule>
+
+# Кэш: картинки и шрифты надолго, CSS и JS тоже (версия в ?v= сбрасывает кэш), HTML без кэша
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Заголовки безопасности
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  # Включите после того, как HTTPS заработает:
+  # Header always set Strict-Transport-Security "max-age=31536000"
+</IfModule>
+
+# Перенаправление на HTTPS (раскомментируйте, когда будет сертификат)
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Референсы (чужие дизайны) не публикуем
+референс_*
+рефернс_*
+
+# Локальные настройки Claude Code
+.claude/settings.local.json
