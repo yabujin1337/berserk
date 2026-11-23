@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://berserk.example/sitemap.xml
+Sitemap: https://yabujin1337.github.io/berserk/sitemap.xml
